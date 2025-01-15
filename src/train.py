@@ -103,7 +103,7 @@ class ProjectAgent:
         """Save the model parameters to a file."""
         torch.save(self.model.state_dict(), path)
 
-    def load(self, path="dqn_model_best.pth"):
+    def load(self, path="./dqn_model_best.pth"):
         """Load the model parameters from a file."""
         self.model.load_state_dict(torch.load(path, map_location=self.device))
         self.model.eval()
@@ -143,7 +143,7 @@ class ProjectAgent:
                 tau = self.update_target_tau
                 for key in model_state_dict:
                     target_state_dict[key] = tau*model_state_dict[key] + (1-tau)*target_state_dict[key]
-                target_model.load_state_dict(target_state_dict)
+                self.target_model.load_state_dict(target_state_dict)
             # next transition
             step += 1
             if done or trunc:
